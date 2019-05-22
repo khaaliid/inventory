@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{fragments/main_layout}">
+
+<head>
+    <title>Product Manager</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/user-home.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/jquery.dataTables.css}" />
+
+
+    <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+    <script th:src="@{/js/popper.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/jquery.dataTables.js}"></script>
+    <script>
+
+        $(document).ready( function () {
+    $('#table_id').DataTable();
+} );
+
+    </script>
+</head>
+
+<body>
+
+<div layout:fragment="content" class="wrap cf">
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <form autocomplete="off" action="#" th:action="@{/admin/productControl}"
+                      th:object="${product}" method="post" class="form-horizontal"
+                      role="form" enctype="multipart/form-data">
+
+                    <input type="hidden" th:value="*{productId}" name="productId"/>
+                    <input type="hidden" th:value="*{originalQuantity}" name="originalQuantity" />
+                    <input type="hidden" th:value="*{originalProductImage}" name="originalProductImage" />
+
+                    <h1>product Editor</h1><br/>
+                    <div class="form-group">
+                        <div class="col-sm-9">
+                            <label th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"
+                                   class="validation-message"></label>
+                            <input type="text" th:field="*{productName}" placeholder="Product Name"
+                                   class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-9">
+                            <label	th:if="${#fields.hasErrors('productQuantity')}" th:errors="*{productQuantity}"
+                                      class="validation-message"></label>
+                            <label class="validation-message"> Quantity</label>
+                            <input type="text" th:field="*{productQuantity}"
+                                   placeholder="Quantity" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-9">
+                            <label class="validation-message"> Price </label>
+                            <input type="text" th:field="*{productPrice}" placeholder="Price"
+                                   class="form-control" /> <label
+                                th:if="${#fields.hasErrors('productPrice')}" th:errors="*{productPrice}"
+                                class="validation-message"></label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-9">
+                            <input type="file" name="productImageFile" />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-sm-9">
+                            <button type="submit" class="btn btn-primary btn-block"> Save Product </button>
+                        </div>
+                    </div>
+
+                    <span th:utext="${successMessage}"></span>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <div class="cart" th:if="${product != null }">
+
+
+
+        <table id="table_id" class="display">
+            <thead>
+            <tr>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Date/Time</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="productHistoryObj, iStat : ${product.productHistory}">
+                <td th:text="${productHistoryObj.quantity}"></td>
+                <td th:text="${productHistoryObj.price}"></td>
+                <td th:text="${productHistoryObj.creationDate}"></td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+</div>
+
+</body>
+</html>

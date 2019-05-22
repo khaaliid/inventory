@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{fragments/main_layout}">
+
+<head>
+    <title>Product List</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/user-home.css}" />
+
+
+    <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+    <script th:src="@{/js/popper.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+
+<body>
+
+<div layout:fragment="content" class="wrap cf">
+    <h1 class="projTitle">Product <span>List</span> </h1>
+    <div class="heading cf">
+        <h1>Products</h1>
+        <a class="btn btn-primary" th:href="@{/admin/productControl}">Add Product</a>
+
+       <!-- <a href="#" class="continue">Continue Shopping</a> -->
+    </div>
+    <div class="cart" th:if="${productList != null && !productList.isEmpty()}">
+        <!--    <ul class="tableHead">
+              <li class="prodHeader">Product</li>
+              <li>Quantity</li>
+              <li>Total</li>
+               <li>Remove</li>
+            </ul>-->
+        <ul class="cartWrap"  th:each="product, iStat : ${productList}">
+
+
+            <li th:class="${iStat.odd}? 'items odd' : 'items even' " >
+
+                <div class="infoWrap">
+                    <div class="cartSection">
+                        <img th:src="@{|~/uploadedImgs/${product.productImage}|}" alt="" class="itemImg" />
+                        <p class="itemNumber" th:text="${{product.productId}}">#QUE-007544-002</p>
+                        <h3 th:text="${{product.productName}}">Item Name</h3>
+
+                        <p> <input type="text"  class="qty" th:value="${{product.productQuantity}}"/> </p>
+
+                        <p th:if="${product.productQuantity != null && product.productQuantity >0}" class="stockStatus"> In Stock</p>
+
+                        <p th:if="${product.productQuantity == null || product.productQuantity <=0}" class="stockStatus out"> out of Stock</p>
+                    </div>
+
+
+                    <div class="prodTotal cartSection">
+                        <p th:text="${product.productPrice}">$15.00</p>
+
+                    </div>
+                    <div class="cartSection removeWrap">
+                        <!--<a href="#" class="remove">x</a>-->
+                        <a th:href="@{|/admin/productControl/${product.productId}/|}" class="btn btn-info">Details</a>
+
+                    </div>
+                </div>
+            </li>
+
+
+        </ul>
+    </div>
+
+    <!--
+    <div class="subtotal cf">
+        <ul>
+            <li class="totalRow"><a href="#" class="btn continue">Next</a></li>
+        </ul>
+    </div>
+
+    <div class="subtotalLeft cf">
+        <ul>
+            <li class="totalRow"><a href="#" class="btn continue">Previous</a></li>
+        </ul>
+    </div>
+
+    -->
+
+    <div class="row" th:fragment="pagination">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <nav aria-label="Pagination">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:each="pageNumber : ${pageNumbers}" >
+
+
+                        <a th:if="${pageNumber == currentPageNumber}"
+                           class="page-link bg-dark" th:href="@{|/user/home/${pageNumber}|}" th:text=${pageNumber}>1</a>
+
+                        <a th:if="${pageNumber != currentPageNumber}"
+                           class="page-link" th:href="@{|/user/home/${pageNumber}|}" th:text=${pageNumber}>1</a>
+
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+
+
+</div>
+
+</body>
+
+</html>

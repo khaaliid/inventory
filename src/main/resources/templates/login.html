@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Inventory Login</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+
+    <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+    <script th:src="@{/js//bootstrap.min.js}"></script>
+</head>
+
+<body>
+
+
+<div class="container h-80">
+    <div class="row align-items-center h-100">
+        <div class="col-3 mx-auto">
+            <div class="text-center">
+                <img id="profile-img" class="rounded-circle profile-img-card" src="https://i.imgur.com/6b6psnA.png" />
+                <p id="profile-name" class="profile-name-card"></p>
+                <form th:action="@{/login}" method="POST" class="form-signin">
+
+                    <input type="text" id="email" name="email"  th:placeholder="Email" class="form-control form-group"
+                            required autofocus>
+                    <br/>
+                    <input type="password" th:placeholder="Password"
+                           id="password" name="password" class="form-control form-group" required>
+
+                    <div align="center" th:if="${param.error}">
+                        <p style="font-size: 20; color: #FF1C19;">Email or Password invalid, please verify</p>
+                    </div>
+
+                    <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Login</button>
+                </form><!-- /form -->
+                &nbsp;<br/>
+              <!--  <form th:action="@{/registration}" method="get">
+                    <button class="btn btn-md btn-warning btn-block" type="Submit">Register</button>
+                </form>
+                -->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

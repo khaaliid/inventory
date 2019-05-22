@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="{%d %-5p method: [%t] %C{2} (%F:%L) - %m%n}"/>
+        </Console>
+
+
+        <RollingFile name="appLog"
+                     fileName="application.log"
+                     filePattern="logs_backup/application-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="{%d %-5p method: [%t] %C{2} (%F:%L) - %m%n}" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="19500KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="1" />
+        </RollingFile>
+
+
+    </Appenders>
+    <Loggers>
+
+        <Root level="debug">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="appLog"/>
+        </Root>
+    </Loggers>
+</Configuration>
